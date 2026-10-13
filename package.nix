@@ -1,0 +1,66 @@
+{ lib
+, stdenv
+, fetchurl
+, autoPatchelfHook
+, makeWrapper
+}:
+
+let
+  version = "1.3.4";
+
+  platformInfo = {
+    "x86_64-linux" = {
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.3.4-5524158944247808/linux-x64/cli_linux_x64.tar.gz";
+      sha512 = "dbdacfc5a1d9874fbbea3a21026d3990b4728e2e3487fd0316dc53cae9a3091023f969425828f3e2e0fadda43cea07dd978ea96f4ca7c202adf2201f419c56dd";
+    };
+    "aarch64-linux" = {
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.3.4-5524158944247808/linux-arm/cli_linux_arm64.tar.gz";
+      sha512 = "24a1d463319701f4943b2d4932cb86ca34d60d2e9fedcd9018ca31809773d719f272512068911632db175d7233088551033bcecc0a2a56b1bcfa041269687eaf";
+    };
+    "x86_64-darwin" = {
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.3.4-5524158944247808/darwin-x64/cli_mac_x64.tar.gz";
+      sha512 = "690cb3bebb13320cb77610abae780c4fe4a4b35136790e49f09d87a6897b5352f28cc3885de81b7607946c2e91dd3738b87d7ba16bdc3d6ed2bd48b1e81767ca";
+    };
+    "aarch64-darwin" = {
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.3.4-5524158944247808/darwin-arm/cli_mac_arm64.tar.gz";
+      sha512 = "2c169f0270ca4d7f0c66abebc49a1b6047d156ff688c6d2ccbb051eabb6781e3e24c2fcb0e5342427d27361ed20da22d15928211d2eee8070f39837b7abb8cf6";
+    };
+  };
+
+  currentPlatform = platformInfo.${stdenv.hostPlatform.system} or (throw "Unsupported platform: ${stdenv.hostPlatform.system}");
+
+in stdenv.mkDerivation {
+  pname = "antigravity-cli";
+  inherit version;
+
+  src = fetchurl {
+    inherit (currentPlatform) url sha512;
+  };
+
+  sourceRoot = ".";
+
+  nativeBuildInputs = [ makeWrapper ] ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
+
+  dontConfigure = true;
+  dontBuild = true;
+  dontStrip = true;
+
+  installPhase = ''
+    runHook preInstall
+
+    install -Dm755 antigravity $out/libexec/antigravity-cli/agy
+    makeWrapper $out/libexec/antigravity-cli/agy $out/bin/agy \
+      --set AGY_CLI_DISABLE_AUTO_UPDATE 1
+
+    runHook postInstall
+  '';
+
+  meta = with lib; {
+    description = "Antigravity CLI - Google's agentic coding assistant in your terminal";
+    homepage = "https://antigravity.google";
+    license = licenses.unfree;
+    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+    platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    mainProgram = "agy";
+  };
+}

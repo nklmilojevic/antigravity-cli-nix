@@ -1,0 +1,42 @@
+name: Test Pull Request
+
+on:
+  pull_request:
+    paths:
+      - 'package.nix'
+      - 'flake.nix'
+      - 'flake.lock'
+      - '.github/workflows/**'
+
+jobs:
+  test-build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+        env:
+          NIX_FIRST_BUILD_UID: 400
+
+      - name: Build package
+        run: |
+          nix build .#antigravity-cli --print-build-logs
+
+      - name: Verify package contents
+        run: |
+          test -x ./result/bin/agy
+
+      - name: Verify version
+        run: |
+          VERSION=$(grep 'version = ' package.nix | head -1 | cut -d'"' -f2)
+          ./result/bin/agy --version 2>&1 | grep -F "$VERSION"
