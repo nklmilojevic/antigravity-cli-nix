@@ -6,24 +6,24 @@
 }:
 
 let
-  version = "1.4.9";
+  version = "1.4.10";
 
   platformInfo = {
     "x86_64-linux" = {
-      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.9-4962164969177088/linux-x64/cli_linux_x64.tar.gz";
-      sha512 = "96a259b7475ae70a5b002ea8a83b804bba9b6ad2171af0cd0839b3959d9e6046ba36e181bc2d5597522aeceaacc06023564c46232fdb958f26f8c72267d9f0fd";
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.10-5501573669978112/linux-x64/cli_linux_x64.tar.gz";
+      sha512 = "3a14c21697e86349ce8402e0b1889cbd1d3a5f4e2cb4dc43aae1c48c404240c2ccff9f775eec277e1f759234a33ec026645c63ed22ab6f6ebede561eda7c38b6";
     };
     "aarch64-linux" = {
-      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.9-4962164969177088/linux-arm/cli_linux_arm64.tar.gz";
-      sha512 = "a703d10ea96d20d35c2ab6a056ce07ac196fac215cdf1ac3a8750a519fa42c3ac1bc4ac8776c98c94e0a816b6b37beaf0e5d98d30eed3e60a90d18ac9a060130";
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.10-5501573669978112/linux-arm/cli_linux_arm64.tar.gz";
+      sha512 = "0182c23882b174c6f2968ad88de43262692ec363a938031319131551dab41cc6aca573d28d264095db357e49881a211114afe9f974386ed37208760f401ba98c";
     };
     "x86_64-darwin" = {
-      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.9-4962164969177088/darwin-x64/cli_mac_x64.tar.gz";
-      sha512 = "cd4df27844a6585da9af155fef02b344deb18213910cff27ddb7ea54411358318a50901a3d348997f67744c31e64fdda7ead3ab48e2c66fc10510b4d8ae9843f";
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.10-5501573669978112/darwin-x64/cli_mac_x64.tar.gz";
+      sha512 = "6e5c1f534d7c9d68cb90afc7cdce45984f927cb1c156e7c736d9a487159fee5cedbf2df7055ead65ba69da534cd0c4d883ba64593a012c69d1407b8aaf9629a6";
     };
     "aarch64-darwin" = {
-      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.9-4962164969177088/darwin-arm/cli_mac_arm64.tar.gz";
-      sha512 = "d7d83634b0c236659ee530f448e9aa1c5dc00a010631edd72bf11a920006892b319be7e51c8defae226f204660544e4d915bb5e733f1ceb50c065f4cbe45d3d0";
+      url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/1.4.10-5501573669978112/darwin-arm/cli_mac_arm64.tar.gz";
+      sha512 = "21e18868b63a35555919586f13dedf8d590151b4f818e5eec5cc85a17fb22530f7dc705fdd627766373317123bafc0b6e0ec25a33d31f144c6014120ae60c6a8";
     };
   };
 
